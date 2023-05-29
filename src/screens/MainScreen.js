@@ -1,14 +1,19 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Button } from 'react-native'
 import React from 'react'
 
 import { Header, Product } from '../components'
 
+import { useStateContext } from '../contexts/ContextProvider'
+
 export default function MainScreen() {
+    const {products, setProducts} = useStateContext();
+  
     return (
       <>
         <Header />
 
         <ScrollView style={styles.scrollView}>
+        <Button title='test' onPress={() => console.log(products)}/>
           <Product />
           <Product />
           <Product />
