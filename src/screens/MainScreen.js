@@ -6,12 +6,12 @@ import { Header, Product } from '../components'
 import { useStateContext } from '../contexts/ContextProvider'
 
 export default function MainScreen() {
-    const {products, setProducts} = useStateContext();
+    const {products, setProducts, isLoading} = useStateContext();
 
     const showProducts = () => {
       return products.map((product, index) => (
         <View key={index}>
-          <Product name={product.name} id={product.id}/>
+          <Product name={product.name} id={product.id} isChecked={product.isChecked}/>
         </View>
       ));
     }
@@ -22,7 +22,12 @@ export default function MainScreen() {
 
         <ScrollView style={styles.scrollView}>
         <Button title='test' onPress={() => console.log(products)}/>
-          {showProducts()}
+          {/* {showProducts()} */}
+
+          {isLoading 
+          ? <Text>Loading</Text>
+          : showProducts()
+          }
         </ScrollView>
       </>
     )

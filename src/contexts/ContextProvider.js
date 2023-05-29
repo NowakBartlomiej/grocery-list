@@ -13,10 +13,11 @@ export const ContextProvider = ({children}) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentName, setCurrentName] = useState(undefined);
     const [currentId, setCurrentId] = useState(undefined)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         db.transaction(tx => {
-          tx.executeSql('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)')
+          tx.executeSql('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, isChecked INTEGER)')
         });
     
         db.transaction(tx => {
@@ -25,15 +26,17 @@ export const ContextProvider = ({children}) => {
             (txObj, error) => console.log(error)
           );
         });
+
+        setIsLoading(false);
       }, [])
 
 
       const addProduct = (productName) => {
         db.transaction(tx => {
-            tx.executeSql('INSERT INTO products (name) values (?)', [productName],
+            tx.executeSql('INSERT INTO products (name, isChecked) values (?,?)', [productName, 0],
               (txObj, resultSet) => {
                 let existingProducts = [...products];
-                existingProducts.push({id: resultSet.insertId, name: productName})
+                existingProducts.push({id: resultSet.insertId, name: productName, isChecked: 0})
                 setProducts(existingProducts);
               },
               (txObj, error) => console.log(error)
@@ -70,6 +73,32 @@ export const ContextProvider = ({children}) => {
             )
           })
       }
+
+      const updateChecked = (isChecked, id) => {
+        db.transaction(tx => {
+            tx.executeSql('UPDATE products SET isChecked = ? WHERE id = ?', [isChecked, id],
+              (txObj, resultSet) => {
+                if (resultSet.rowsAffected > 0) {
+                  let existingProducts = [...products];
+                  const indexToUpdate = existingProducts.findIndex(name => name.id === id);
+                  existingProducts[indexToUpdate].isChecked = isChecked;
+                  setProducts(existingProducts);
+                }
+              },
+              (txObj, error) => console.log(error)
+            )
+          })
+      }
+
+      const loadProducts = () => {
+        db.transaction(tx => {
+          tx.executeSql('SELECT * FROM products', null,
+            (txObj, resultSet) => setProducts(resultSet.rows._array),
+            (txObj, error) => console.log(error)
+          );
+        });
+        setIsLoading(false);
+      }
     
     
     return <StateContext.Provider
@@ -86,6 +115,12 @@ export const ContextProvider = ({children}) => {
 
             currentName, setCurrentName,
             currentId, setCurrentId,
+
+            updateChecked,
+
+            loadProducts,
+
+            isLoading,
          }}
     >
         {children}

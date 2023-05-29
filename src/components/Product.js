@@ -11,22 +11,45 @@ import { Ionicons } from '@expo/vector-icons';
 import { useStateContext } from '../contexts/ContextProvider';
 
 import EditModal from './EditModal';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Product(props) {
-  const {deleteProduct, showEditModal, setShowEditModal, setCurrentName, setCurrentId, currentName, currentId} = useStateContext();
+  const {deleteProduct, showEditModal, setShowEditModal, setCurrentName, setCurrentId, currentName, currentId, updateChecked, loadProducts} = useStateContext();
+
+  const [checked, setChecked] = useState(props.isChecked == 0 ? false : true);
+
+  useEffect(() => {
+    loadProducts();
+  }, [checked]) 
+
+  const handleChecked = () => {
+    console.log("Checkbox")
+    if (!checked) {
+      updateChecked(1, props.id);
+    } else {
+      updateChecked(0, props.id);
+    }
+    setChecked(!checked);
+  }
 
   return (
     <View style={styles.productBox}>
         <Checkbox
-            isChecked={false}
+            isChecked={checked}
             onChange={() => {
-                console.log("Checkbox")
+                handleChecked();
             }}
             value={"1"} accessibilityLabel="Checkbox" colorScheme="green" size="lg"
         />
 
         <View style={styles.textBox}>
-            <Text style={styles.productText}>{props.name}</Text>
+            
+            {checked 
+            ? <Text style={{...styles.productText, color: '#B1B1B0', textDecorationLine: 'line-through'}}>{props.name}</Text>
+            : <Text style={styles.productText}>{props.name}</Text>
+            }
+            
 
             <Menu>
                 <MenuTrigger>
