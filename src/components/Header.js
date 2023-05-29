@@ -6,15 +6,26 @@ import { NativeBaseProvider, Progress } from 'native-base'
 import { useStateContext } from '../contexts/ContextProvider'
 
 export default function Header() {
+  const {products} = useStateContext();
+
+  let checkedCount = 0;
+  for(let i = 0; i < products.length; i++) {
+    if (products[i].isChecked == 1) {
+      checkedCount++;
+    }
+  }
+
+  let progress = parseInt((checkedCount / products.length) * 100);
+  
   return (
     <>
         <View style={styles.headerBg}>
             <Text style={[styles.textColor, styles.headerText]}>Lista Zakupów</Text>
-            <Text style={[styles.textColor, styles.regularText]}>1 z 2 produktów</Text>
+            <Text style={[styles.textColor, styles.regularText]}>{checkedCount} z {products.length} produktów</Text>
 
             <View style={styles.progressBox}>
-                <Text style={[styles.textColor, styles.regularText, styles.progressText]}>33%</Text>
-                <Progress size="md" mb={4} value={33} _filledTrack={{ bg: "#fff"}} bg="#00A57A"/>
+                <Text style={[styles.textColor, styles.regularText, styles.progressText]}>{progress}%</Text>
+                <Progress size="md" mb={4} value={progress} _filledTrack={{ bg: "#fff"}} bg="#00A57A"/>
             </View>
         </View>
     </>

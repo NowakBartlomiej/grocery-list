@@ -21,7 +21,7 @@ export default function MainScreen() {
         <Header />
 
         <ScrollView style={styles.scrollView}>
-        <Button title='test' onPress={() => console.log(products)}/>
+        {/* <Button title='test' onPress={() => console.log(products)}/> */}
           {/* {showProducts()} */}
 
           {isLoading 
