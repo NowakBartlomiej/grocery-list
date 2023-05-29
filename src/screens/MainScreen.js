@@ -11,7 +11,7 @@ export default function MainScreen() {
     const showProducts = () => {
       return products.map((product, index) => (
         <View key={index}>
-          <Product name={product.name}/>
+          <Product name={product.name} id={product.id}/>
         </View>
       ));
     }

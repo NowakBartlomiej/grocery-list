@@ -8,7 +8,11 @@ import {Menu, MenuOption, MenuOptions, MenuTrigger} from 'react-native-popup-men
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { useStateContext } from '../contexts/ContextProvider';
+
 export default function Product(props) {
+  const {deleteProduct} = useStateContext();
+
   return (
     <View style={styles.productBox}>
         <Checkbox
@@ -29,7 +33,9 @@ export default function Product(props) {
                 <MenuOptions optionsContainerStyle={{width: 95}}>
                     
                     <MenuOption 
-                    onSelect={() => console.log('USUN')} 
+                    onSelect={() => {
+                      deleteProduct(props.id);
+                    }} 
                     >
                     <Text>Usuń Listę</Text>
                     </MenuOption>  

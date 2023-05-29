@@ -37,6 +37,20 @@ export const ContextProvider = ({children}) => {
             )
           })
       }
+
+      const deleteProduct = (id) => {
+        db.transaction(tx => {
+            tx.executeSql('DELETE FROM products WHERE id = ?', [id],
+              (txObj, resultSet) => {
+                if (resultSet.rowsAffected > 0) {
+                  let existingProducts = [...products].filter(name => name.id !== id);
+                  setProducts(existingProducts);
+                }
+              },
+              (txObj, error) => console.log(error)
+            );
+          })
+      }
     
     
     return <StateContext.Provider
@@ -46,6 +60,7 @@ export const ContextProvider = ({children}) => {
             showModal, setShowModal,
 
             addProduct,
+            deleteProduct,
          }}
     >
         {children}
