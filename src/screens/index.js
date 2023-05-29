@@ -1,5 +1,5 @@
-import EmptyScreen from "./EmptyScreen";
+import MainScreen from "./MainScreen";
 
 export {
-    EmptyScreen,
+    MainScreen,
 }

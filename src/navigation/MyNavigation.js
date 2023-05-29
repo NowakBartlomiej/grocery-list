@@ -5,7 +5,7 @@ import React from 'react'
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import { EmptyScreen } from '../screens';
+import { MainScreen } from '../screens';
 
 // Icons
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -13,7 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 
 
 
-const emptyScreenName = 'EmptyScreen';
+const mainScreenName = 'MainScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +39,8 @@ export default function MyNavigation() {
       <Tab.Navigator screenOptions={screenOptions}>
 
     <Tab.Screen
-    name={emptyScreenName}
-    component={EmptyScreen}
+    name={mainScreenName}
+    component={MainScreen}
     options={({route}) => ({
         tabBarIcon: ({focused}) => {
         
