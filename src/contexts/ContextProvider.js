@@ -9,6 +9,8 @@ export const ContextProvider = ({children}) => {
     const db = SQLite.openDatabase('groceryList.db');
     const [products, setProducts] = useState([]);
 
+    const [showModal, setShowModal] = useState(false);
+
     useEffect(() => {
         db.transaction(tx => {
           tx.executeSql('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)')
@@ -25,7 +27,9 @@ export const ContextProvider = ({children}) => {
     
     return <StateContext.Provider
         value={{ 
-            products, setProducts
+            products, setProducts,
+
+            showModal, setShowModal,
          }}
     >
         {children}

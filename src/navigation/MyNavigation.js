@@ -8,8 +8,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { MainScreen } from '../screens';
 
 // Icons
-import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+
+import { InputModal } from '../components';
+
+import { useStateContext } from '../contexts/ContextProvider';
 
 
 
@@ -33,6 +36,8 @@ const screenOptions = {
 }
 
 export default function MyNavigation() {
+  const {setShowModal} = useStateContext();
+  
   return (
     <>
       <NavigationContainer screenOptions={screenOptions}>
@@ -50,6 +55,7 @@ export default function MyNavigation() {
             style={styles.addButton}
             onPress={() => {
                 console.log('hello')
+                setShowModal(true);
             }}
             >
             <Entypo name="plus" size={44} color="#fff" />
@@ -62,6 +68,8 @@ export default function MyNavigation() {
 
 </Tab.Navigator>
       </NavigationContainer>
+
+      <InputModal />
     </>
   )
 }
