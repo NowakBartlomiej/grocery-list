@@ -10,8 +10,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
+import EditModal from './EditModal';
+
 export default function Product(props) {
-  const {deleteProduct} = useStateContext();
+  const {deleteProduct, showEditModal, setShowEditModal, setCurrentName, setCurrentId, currentName, currentId} = useStateContext();
 
   return (
     <View style={styles.productBox}>
@@ -37,20 +39,26 @@ export default function Product(props) {
                       deleteProduct(props.id);
                     }} 
                     >
-                    <Text>Usuń Listę</Text>
+                    <Text>Usuń Produkt</Text>
                     </MenuOption>  
 
                     <MenuOption 
-                    onSelect={() => console.log('EDIT')} 
+                    onSelect={() => {
+                      setShowEditModal(true);
+                      setCurrentName(props.name);
+                      setCurrentId(props.id);
+                    }} 
                     >
-                    <Text>Edytuj Listę</Text>
+                    <Text>Edytuj Produkt</Text>
                     </MenuOption> 
 
                 </MenuOptions> 
             </Menu>
         </View>
 
-
+        {showEditModal && (
+          <EditModal name={currentName} id={currentId}/>
+        )}           
 
     </View>
   )

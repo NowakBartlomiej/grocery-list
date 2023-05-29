@@ -10,6 +10,9 @@ export const ContextProvider = ({children}) => {
     const [products, setProducts] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [currentName, setCurrentName] = useState(undefined);
+    const [currentId, setCurrentId] = useState(undefined)
 
     useEffect(() => {
         db.transaction(tx => {
@@ -51,6 +54,22 @@ export const ContextProvider = ({children}) => {
             );
           })
       }
+
+      const updateProduct = (newProductName, id) => {
+        db.transaction(tx => {
+            tx.executeSql('UPDATE products SET name = ? WHERE id = ?', [newProductName, id],
+              (txObj, resultSet) => {
+                if (resultSet.rowsAffected > 0) {
+                  let existingProducts = [...products];
+                  const indexToUpdate = existingProducts.findIndex(name => name.id === id);
+                  existingProducts[indexToUpdate].name = newProductName;
+                  setProducts(existingProducts);
+                }
+              },
+              (txObj, error) => console.log(error)
+            )
+          })
+      }
     
     
     return <StateContext.Provider
@@ -59,8 +78,14 @@ export const ContextProvider = ({children}) => {
 
             showModal, setShowModal,
 
+            showEditModal, setShowEditModal,
+
             addProduct,
             deleteProduct,
+            updateProduct,
+
+            currentName, setCurrentName,
+            currentId, setCurrentId,
          }}
     >
         {children}
