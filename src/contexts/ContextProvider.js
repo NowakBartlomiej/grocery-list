@@ -23,6 +23,20 @@ export const ContextProvider = ({children}) => {
           );
         });
       }, [])
+
+
+      const addProduct = (productName) => {
+        db.transaction(tx => {
+            tx.executeSql('INSERT INTO products (name) values (?)', [productName],
+              (txObj, resultSet) => {
+                let existingProducts = [...products];
+                existingProducts.push({id: resultSet.insertId, name: productName})
+                setProducts(existingProducts);
+              },
+              (txObj, error) => console.log(error)
+            )
+          })
+      }
     
     
     return <StateContext.Provider
@@ -30,6 +44,8 @@ export const ContextProvider = ({children}) => {
             products, setProducts,
 
             showModal, setShowModal,
+
+            addProduct,
          }}
     >
         {children}

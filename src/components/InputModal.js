@@ -4,7 +4,7 @@ import React, {useState} from 'react'
 import { useStateContext } from '../contexts/ContextProvider'
 
 export default function InputModal() {
-  const {showModal, setShowModal} = useStateContext();
+  const {showModal, setShowModal, addProduct} = useStateContext();
 
   const [inputText, setInputText] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
@@ -47,8 +47,7 @@ export default function InputModal() {
             <View style={styles.btnBox}>
             <TouchableOpacity 
                     onPress={() => {
-                        console.log(inputText);
-                        //TODO dodawanie
+                        addProduct(inputText);
                         //TODO LADOWANIE
                         setShowModal(false);
                     }}

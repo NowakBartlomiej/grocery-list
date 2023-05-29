@@ -8,7 +8,7 @@ import {Menu, MenuOption, MenuOptions, MenuTrigger} from 'react-native-popup-men
 
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Product() {
+export default function Product(props) {
   return (
     <View style={styles.productBox}>
         <Checkbox
@@ -20,7 +20,7 @@ export default function Product() {
         />
 
         <View style={styles.textBox}>
-            <Text style={styles.productText}>Produkt</Text>
+            <Text style={styles.productText}>{props.name}</Text>
 
             <Menu>
                 <MenuTrigger>

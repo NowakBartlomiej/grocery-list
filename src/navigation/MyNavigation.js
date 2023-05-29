@@ -54,7 +54,6 @@ export default function MyNavigation() {
             underlayColor={'#228E6E'}
             style={styles.addButton}
             onPress={() => {
-                console.log('hello')
                 setShowModal(true);
             }}
             >

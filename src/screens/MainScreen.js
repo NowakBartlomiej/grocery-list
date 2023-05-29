@@ -7,6 +7,14 @@ import { useStateContext } from '../contexts/ContextProvider'
 
 export default function MainScreen() {
     const {products, setProducts} = useStateContext();
+
+    const showProducts = () => {
+      return products.map((product, index) => (
+        <View key={index}>
+          <Product name={product.name}/>
+        </View>
+      ));
+    }
   
     return (
       <>
@@ -14,13 +22,7 @@ export default function MainScreen() {
 
         <ScrollView style={styles.scrollView}>
         <Button title='test' onPress={() => console.log(products)}/>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+          {showProducts()}
         </ScrollView>
       </>
     )
