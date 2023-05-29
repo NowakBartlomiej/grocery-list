@@ -2,11 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MyNavigation from './src/navigation/MyNavigation';
 
+// Context API
+import { ContextProvider } from './src/contexts/ContextProvider';
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <MyNavigation />
-    </View>
+    <ContextProvider>
+      <MyNavigation/>
+    </ContextProvider>
   );
 }
 

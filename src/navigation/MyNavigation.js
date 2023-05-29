@@ -27,36 +27,40 @@ const screenOptions = {
       left: 0,
       elevation: 0,
       background: '#fff',
+      marginVertical: 'auto',
+      height: 60,
     },
 }
 
 export default function MyNavigation() {
   return (
     <>
-      <NavigationContainer>
-        <Tab.Navigator>
+      <NavigationContainer screenOptions={screenOptions}>
+      <Tab.Navigator screenOptions={screenOptions}>
 
-            <Tab.Screen
-                name={emptyScreenName}
-                component={EmptyScreen}
-                options={({route}) => ({
-                    tabBarIcon: ({focused}) => {
-                        return(
-                            <TouchableHighlight
-                                underlayColor={'#228E6E'}
-                                style={styles.addButton}
-                                onPress={() => {
-                                    console.log('hello');
-                                }}
-                            >
-                                <Entypo name="plus" size={44} color="#fff" />
-                            </TouchableHighlight>
-                        )
-                    }
-                })}
-            />
+    <Tab.Screen
+    name={emptyScreenName}
+    component={EmptyScreen}
+    options={({route}) => ({
+        tabBarIcon: ({focused}) => {
+        
+        return(
+            <TouchableHighlight
+            underlayColor={'#228E6E'}
+            style={styles.addButton}
+            onPress={() => {
+                console.log('hello')
+            }}
+            >
+            <Entypo name="plus" size={44} color="#fff" />
+            </TouchableHighlight>
+        )
+        }
+    })}
+    />
 
-        </Tab.Navigator>
+
+</Tab.Navigator>
       </NavigationContainer>
     </>
   )
@@ -74,6 +78,6 @@ const styles = StyleSheet.create({
       height: 50,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#00A57A'
+      backgroundColor: '#00A57A',
     }
   })
